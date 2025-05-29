@@ -21,6 +21,8 @@ const App = () => {
     const[input,setInput] = useState(null);
     const [showInput,setShowInput] = useState(null);
 
+    const [isChinese, setIsChinese] = useState(false);
+
     const config = [
         [1,1,1],
         [1,1,1],
@@ -59,10 +61,23 @@ const App = () => {
 
     },[input]);
 
+    useEffect(() => {
+    const toggleInterval = setInterval(() => {
+      setIsChinese(prev => !prev);
+    }, 5000); // 5 seconds
+
+    return () => clearInterval(toggleInterval); // Cleanup on unmount
+  }, []);
+
 
   return (
     <div className='wrapper'>
-        <h1 style={{ color: "#ff3c3c", textTransform: "uppercase" }}>Traffic lights simulator</h1>
+        <h1
+        className="header"
+        style={{ color: "#ff3c3c", textTransform: "uppercase", fontSize: "60px" }}
+      >
+        {isChinese ? '交通灯模拟器' : 'Traffic Lights Simulator'}
+      </h1>
         <input type='number' placeholder='enter number to coundown' min={1} max={99} onKeyDown={onAddValue} />
         <div className='grid-box' style={{ display: "flex",  gap:"20px" }}>
             <div className='grid' style={{ gridTemplateColumns: `repeat(3,1fr)` }}>
@@ -86,7 +101,7 @@ const App = () => {
                 }
             </div>
         </div>
-        <h1 style={{ color: "#ff3c3c" }}>{showInput}</h1>
+        <h1 style={{ color: "#ff3c3c", fontSize:"70px" }}>{showInput}</h1>
     </div>
   )
 }
